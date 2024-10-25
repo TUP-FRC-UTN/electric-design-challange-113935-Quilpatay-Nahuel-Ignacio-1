@@ -1,1 +1,35 @@
-<!-- BUILD IT FROM HERE https://getbootstrap.com/docs/5.3/content/tables/#striped-rows -->
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Listado de Presupuestos</h2>
+        <button class="btn btn-primary" routerLink="/budgets/new">Nueva cotización</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Módulos</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(budget of budgets$; track $index){
+                    <tr>
+                        <td>{{ budget.id }}</td>
+                        <td>{{ budget.client }}</td>
+                        <td>{{ budget.date | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ budget.modules.length }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" [routerLink]="['/budgets', budget.id]">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

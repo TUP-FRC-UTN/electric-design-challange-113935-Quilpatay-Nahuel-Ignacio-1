@@ -1,4 +1,73 @@
-<!-- BUILT IT FROM:
-https://getbootstrap.com/docs/5.3/forms/form-control/#example
-https://getbootstrap.com/docs/5.3/forms/select/#default
-https://getbootstrap.com/docs/5.3/forms/select/#default -->
+<div class="container mt-4">
+    <h2>Nueva cotización</h2>
+    <form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="client">
+            <div class="text-danger" *ngIf="budgetForm.get('client')?.errors?.['required'] && 
+             budgetForm.get('client')?.touched">
+                El nombre del cliente es requerido
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-control" formControlName="date">
+            <div class="text-danger" *ngIf="budgetForm.get('date')?.errors?.['required'] && 
+             budgetForm.get('date')?.touched">
+                La fecha es requerida
+            </div>
+            <div class="text-danger" *ngIf="budgetForm.get('date')?.errors?.['futureDate']">
+                La fecha no puede ser mayor a la actual
+            </div>
+        </div>
+
+        <div formArrayName="modules">
+            <div *ngFor="let module of modules.controls; let i = index" [formGroupName]="i" class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Tipo Módulo</label>
+                    <select class="form-select" formControlName="moduleType" (change)="onModuleTypeChange(i)">
+                        <option [ngValue]="null">Seleccione un módulo</option>
+                        <option *ngFor="let type of moduleTypes" [ngValue]="type">
+                            {{type.name}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label class="form-label">Ambiente</label>
+                    <select class="form-select" formControlName="zone">
+                        <option [ngValue]="null">Seleccione un ambiente</option>
+                        <option *ngFor="let zone of zones" [value]="zone">
+                            {{zone}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label class="form-label">Precio</label>
+                    <input type="text" class="form-control" [value]="getModulePrice(i)" readonly>
+                </div>
+
+                <div class="col">
+                    <label class="form-label">Lugares</label>
+                    <input type="text" class="form-control" [value]="getModuleSlots(i)" readonly>
+                </div>
+
+                <div class="col-auto d-flex align-items-end">
+                    <button type="button" class="btn btn-danger mb-3" (click)="removeModule(i)">×</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-danger" *ngIf="modules.length < 5 && budgetForm.touched">
+            Debe cargar al menos 5 módulos
+        </div>
+
+        <button type="button" class="btn btn-secondary me-2" (click)="addModule()">+ Módulo</button>
+        <button type="button" class="btn btn-secondary me-2" routerLink="/budgets">Volver</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!budgetForm.valid || modules.length < 5">
+            Guardar
+        </button>
+    </form>
+</div>
