@@ -12,11 +12,12 @@ import {
 import { Router } from '@angular/router';
 import { BudgetService } from '../services/budget.service';
 import { ModuleType, Zone } from '../models/budget';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-budget-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './budget-form.component.html',
 })
 export class BudgetFormComponent {

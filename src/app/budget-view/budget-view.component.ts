@@ -4,11 +4,12 @@ import { map, Observable, switchMap } from 'rxjs';
 import { BudgetService } from '../services/budget.service';
 import { GroupedModules } from '../models/budget';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-budget-view',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, HttpClientModule],
   templateUrl: './budget-view.component.html',
 })
 export class BudgetViewComponent {
@@ -17,9 +18,8 @@ export class BudgetViewComponent {
   constructor(
     private route: ActivatedRoute,
     private budgetService: BudgetService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
+    // Inicializar budgetData$ en el constructor
     this.budgetData$ = this.route.paramMap.pipe(
       switchMap((params) => {
         const id = params.get('id')!;
