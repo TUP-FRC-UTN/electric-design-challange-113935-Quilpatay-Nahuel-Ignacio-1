@@ -19,7 +19,6 @@ export class BudgetViewComponent {
     private route: ActivatedRoute,
     private budgetService: BudgetService
   ) {
-    // Inicializar budgetData$ en el constructor
     this.budgetData$ = this.route.paramMap.pipe(
       switchMap((params) => {
         const id = params.get('id')!;

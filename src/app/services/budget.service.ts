@@ -47,16 +47,14 @@ export class BudgetService {
     );
   }
 
-  // Helper method to calculate required boxes
   calculateRequiredBoxes(modules: Budget['modules']): number {
     const totalSlots = modules.reduce(
       (acc, module) => acc + module.moduleType.slots,
       0
     );
-    return Math.ceil(totalSlots / 3); // Each box has 3 slots
+    return Math.ceil(totalSlots / 3);
   }
 
-  // Helper method to group modules by zone
   groupModulesByZone(modules: Budget['modules']): Record<string, any> {
     return modules.reduce((acc, curr) => {
       const zone = curr.zone;
@@ -72,7 +70,6 @@ export class BudgetService {
     }, {} as Record<string, any>);
   }
 
-  // Calculate total budget
   calculateTotal(modules: Budget['modules']): number {
     return modules.reduce((acc, module) => acc + module.moduleType.price, 0);
   }
